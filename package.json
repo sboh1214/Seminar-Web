@@ -1,6 +1,6 @@
 {
-  "name": "with-typescript-eslint-jest",
-  "author": "@erikdstock",
+  "name": "seminar-web",
+  "author": "Seungbin Oh",
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
@@ -26,6 +26,11 @@
     ]
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.13",
+    "@chakra-ui/react": "^1.6.2",
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
+    "framer-motion": "^4.1.17",
     "next": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
