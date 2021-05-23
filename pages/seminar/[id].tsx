@@ -2,7 +2,7 @@ import { Heading } from "@chakra-ui/layout";
 import Frame from "../../components/frame";
 import { useRouter } from 'next/router'
 
-export default function Seminar() {
+export default function Seminar(): JSX.Element {
   const router = useRouter()
   const { id } = router.query
 
