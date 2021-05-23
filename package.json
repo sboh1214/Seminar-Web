@@ -6,23 +6,22 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npm run dev",
     "type-check": "tsc --pretty --noEmit",
-    "format": "prettier --write .",
-    "lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "lint": "eslint ./src --fix --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
     "test-all": "npm lint && npm type-check && npm test"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run type-check"
+      "pre-commit": "lint-staged && npm run lint && npm run tsc"
     }
   },
   "lint-staged": {
-    "*.@(ts|tsx)": [
-      "npm lint",
-      "npm format"
+    "**/*.{js,jsx,ts,tsx,json,md}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "dependencies": {

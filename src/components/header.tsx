@@ -2,7 +2,7 @@ import { SearchIcon } from '@chakra-ui/icons'
 import { Box, Heading, HStack } from '@chakra-ui/layout'
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 
-export default function (): JSX.Element {
+export default function Header(): JSX.Element {
   return (
     <Box
       width="100%"
