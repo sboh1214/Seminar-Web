@@ -1,4 +1,4 @@
-import { Container, Button } from '@chakra-ui/react'
+import { Container, Button, createStandaloneToast } from '@chakra-ui/react'
 import Frame from '../../components/frame'
 import {
   FormControl,
@@ -8,9 +8,12 @@ import {
 } from '@chakra-ui/react'
 import { useForm, useFormState } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { API, StatusCode, toastAxiosError, toastInternetError, toastServerError } from '../../configs'
+import { AxiosError, AxiosResponse } from 'axios'
 
 export default function SignIn(): JSX.Element {
   const router = useRouter()
+  const toast = createStandaloneToast()
   const {
     control,
     register,
@@ -19,7 +22,34 @@ export default function SignIn(): JSX.Element {
   } = useForm()
   const { isSubmitting } = useFormState({ control })
   const onSubmit = (data) => {
-    router.push('/')
+    API.post('auth/signin', { email: data.email, password: data.password })
+      .then((_: AxiosResponse) => {
+        toast({
+          title: 'Success',
+          description: "Your account created.",
+          status: 'success',
+          duration: 5000,
+        })
+        router.push(router.query.from as string ?? '/')
+      })
+      .catch((err: AxiosError) => {
+        if (err.response) {
+          if (err.response.status == StatusCode.BadRequest) {
+            toast({
+              title: 'Error',
+              description: err.response.data,
+              status: 'error',
+              duration: 5000,
+            })
+          } else if (err.response.status == StatusCode.InternalServerError) {
+            toastServerError(toast, err.response.data)
+          }
+        } else if (err.request) {
+          toastInternetError(toast)
+        } else {
+          toastAxiosError(toast, err.message)
+        }
+      })
   }
 
   return (
@@ -28,7 +58,11 @@ export default function SignIn(): JSX.Element {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl id="email" isInvalid={errors.email}>
             <FormLabel>Email</FormLabel>
-            <Input type="email" {...register('email', { required: true })} />
+            <Input
+              type="email"
+              defaultValue={router.query.email}
+              {...register('email', { required: true })}
+            />
             <FormErrorMessage>
               {errors.email && 'This field is required'}
             </FormErrorMessage>
