@@ -16,6 +16,16 @@ import React from 'react'
 export default function UserHeader(): JSX.Element {
   return (
     <HStack>
+      <Link href="/seminar/create">
+        <Button colorScheme="teal" variant="outline">
+          Create seminar
+        </Button>
+      </Link>
+      <Link href="/series/create">
+        <Button colorScheme="teal" variant="outline">
+          Create series
+        </Button>
+      </Link>
       <Popover>
         <PopoverTrigger>
           <Button colorScheme="teal" variant="solid">
