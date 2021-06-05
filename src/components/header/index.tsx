@@ -22,10 +22,9 @@ export default function Header(): JSX.Element {
     >
       <HStack
         width="100%"
-        maxWidth="1024px"
         height="100%"
-        margin="6px"
-        spacing="6px"
+        paddingX="6px"
+        justifyContent="space-between"
       >
         <Link href="/">
           <Button colorScheme="teal" variant="ghost">
