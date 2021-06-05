@@ -5,12 +5,19 @@ import { useEffect, useState } from 'react'
 import AnonymousHeader from './anonymousHeader'
 import UserHeader from './userHeader'
 import Link from 'next/link'
+import { API } from '../../configs'
 
 export default function Header(): JSX.Element {
   const [isSignIn, setIsSignIn] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsSignIn(false)
+    API.get('auth/refresh')
+      .then(() => {
+        setIsSignIn(true)
+      })
+      .catch(() => {
+        setIsSignIn(false)
+      })
   }, [])
 
   return (

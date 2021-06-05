@@ -1,8 +1,9 @@
 import { UseToastOptions } from '@chakra-ui/toast'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 export const API = axios.create({
   baseURL: `http://localhost:8000/`,
+  withCredentials: true,
 })
 
 export const StatusCode = {

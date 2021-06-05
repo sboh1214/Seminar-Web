@@ -8,7 +8,13 @@ import {
 } from '@chakra-ui/react'
 import { useForm, useFormState } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { API, StatusCode, toastAxiosError, toastInternetError, toastServerError } from '../../configs'
+import {
+  API,
+  StatusCode,
+  toastAxiosError,
+  toastInternetError,
+  toastServerError,
+} from '../../configs'
 import { AxiosError, AxiosResponse } from 'axios'
 
 export default function SignIn(): JSX.Element {
@@ -22,15 +28,18 @@ export default function SignIn(): JSX.Element {
   } = useForm()
   const { isSubmitting } = useFormState({ control })
   const onSubmit = (data) => {
-    API.post('auth/signin', { email: data.email, password: data.password })
+    API.post(
+      'auth/signin',
+      { email: data.email, password: data.password },
+    )
       .then((_: AxiosResponse) => {
         toast({
           title: 'Success',
-          description: "Your account created.",
+          description: 'Hello!',
           status: 'success',
           duration: 5000,
         })
-        router.push(router.query.from as string ?? '/')
+        router.push((router.query.from as string) ?? '/')
       })
       .catch((err: AxiosError) => {
         if (err.response) {
