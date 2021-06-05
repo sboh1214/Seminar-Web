@@ -1,24 +1,51 @@
 import { SearchIcon } from '@chakra-ui/icons'
 import { Box, HStack } from '@chakra-ui/layout'
-import { Input, InputGroup, InputLeftElement, Button } from '@chakra-ui/react'
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Button,
+  CircularProgress,
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import AnonymousHeader from './anonymousHeader'
 import UserHeader from './userHeader'
 import Link from 'next/link'
 import { API } from '../../configs'
 
+enum SignState {
+  Loading,
+  Anonymous,
+  User,
+}
+
 export default function Header(): JSX.Element {
-  const [isSignIn, setIsSignIn] = useState<boolean>(false)
+  const [signState, setSignState] = useState<SignState>(SignState.Loading)
 
   useEffect(() => {
     API.get('auth/refresh')
       .then(() => {
-        setIsSignIn(true)
+        setSignState(SignState.User)
       })
       .catch(() => {
-        setIsSignIn(false)
+        setSignState(SignState.Anonymous)
       })
   }, [])
+
+  let rightHeader
+  switch (signState) {
+    case SignState.Loading:
+      rightHeader = <CircularProgress isIndeterminate />
+      break
+    case SignState.Anonymous:
+      rightHeader = <AnonymousHeader />
+      break
+    case SignState.User:
+      rightHeader = <UserHeader />
+      break
+    default:
+      break
+  }
 
   return (
     <Box
@@ -44,7 +71,7 @@ export default function Header(): JSX.Element {
           </InputLeftElement>
           <Input type="text" placeholder="검색" />
         </InputGroup>
-        {isSignIn ? <UserHeader /> : <AnonymousHeader />}
+        {rightHeader}
       </HStack>
     </Box>
   )

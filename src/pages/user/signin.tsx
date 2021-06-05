@@ -14,6 +14,7 @@ import {
   toastAxiosError,
   toastInternetError,
   toastServerError,
+  toastSuccess,
 } from '../../configs'
 import { AxiosError, AxiosResponse } from 'axios'
 
@@ -33,12 +34,7 @@ export default function SignIn(): JSX.Element {
       { email: data.email, password: data.password },
     )
       .then((_: AxiosResponse) => {
-        toast({
-          title: 'Success',
-          description: 'Hello!',
-          status: 'success',
-          duration: 5000,
-        })
+        toastSuccess(toast, "Welcome back!")
         router.push((router.query.from as string) ?? '/')
       })
       .catch((err: AxiosError) => {

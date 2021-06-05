@@ -18,6 +18,15 @@ export const StatusCode = {
 
 type ToastFunction = (options?: UseToastOptions) => string | number
 
+export function toastSuccess(toast: ToastFunction, message: string): void {
+  toast({
+    title: 'Success',
+    description: message,
+    status: 'success',
+    duration: 5000,
+  })
+}
+
 export function toastServerError(toast: ToastFunction, data: any): void {
   let message = 'No message from server.'
   if (typeof data == 'string') {
