@@ -8,8 +8,8 @@ import {
 } from '@chakra-ui/react'
 import { useForm, useFormState } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { AxiosErrorToast, API, StatusCode, toastAxiosError, toastInternetError, toastServerError } from '../../configs'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import { API, StatusCode, toastAxiosError, toastInternetError, toastServerError } from '../../configs'
+import { AxiosError, AxiosResponse } from 'axios'
 
 export default function SignUp(): JSX.Element {
   const router = useRouter()
