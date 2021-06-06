@@ -12,19 +12,24 @@ import AnonymousHeader from './anonymousHeader'
 import UserHeader from './userHeader'
 import Link from 'next/link'
 import { API } from '../../configs'
+import { AxiosResponse } from 'axios'
 
 enum SignState {
   Loading,
   Anonymous,
   User,
+  Speaker,
+  Admin,
 }
 
 export default function Header(): JSX.Element {
   const [signState, setSignState] = useState<SignState>(SignState.Loading)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    API.get('auth/refresh')
-      .then(() => {
+    API.get('auth/current')
+      .then((res: AxiosResponse) => {
+        setUser(res.data)
         setSignState(SignState.User)
       })
       .catch(() => {
@@ -41,7 +46,7 @@ export default function Header(): JSX.Element {
       rightHeader = <AnonymousHeader />
       break
     case SignState.User:
-      rightHeader = <UserHeader />
+      rightHeader = <UserHeader user={user} />
       break
     default:
       break
