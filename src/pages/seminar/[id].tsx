@@ -1,14 +1,75 @@
-import { Heading, HStack, Box, AspectRatio } from '@chakra-ui/layout'
+import { Heading, HStack, Box, AspectRatio, Text } from '@chakra-ui/layout'
 import Frame from '../../components/frame'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import {
+  API,
+  StatusCode,
+  toastAxiosError,
+  toastInternetError,
+  toastServerError,
+} from '../../configs'
+import { AxiosError, AxiosResponse } from 'axios'
+import { createStandaloneToast } from '@chakra-ui/toast'
+import { Skeleton } from '@chakra-ui/skeleton'
+import { Button } from '@chakra-ui/button'
+
+enum State {
+  Loading,
+  Complete,
+  Error,
+}
 
 export default function Seminar(): JSX.Element {
   const router = useRouter()
-  const { id } = router.query
+  const toast = createStandaloneToast()
+  const [seminar, setSeminar] = useState(null)
+  const [state, setState] = useState<State>(State.Loading)
 
+  useEffect(() => {
+    const { id } = router.query
+    API.get(`/seminar/query/${id}`)
+      .then((res: AxiosResponse) => {
+        setSeminar(res.data)
+        setState(State.Complete)
+      })
+      .catch((err: AxiosError) => {
+        setState(State.Error)
+        if (err.response) {
+          if (err.response.status == StatusCode.NotFound) {
+            toastServerError(toast, err.response.data)
+          } else if (err.response.status == StatusCode.InternalServerError) {
+            toastServerError(toast, err.response.data)
+          }
+        } else if (err.request) {
+          toastInternetError(toast)
+        } else {
+          toastAxiosError(toast, err.message)
+        }
+      })
+  }, [])
+
+  if (state == State.Error) {
+    return (
+      <Frame>
+        <Button
+          onClick={() => {
+            router.reload()
+          }}
+        >
+          Reload
+        </Button>
+      </Frame>
+    )
+  }
   return (
     <Frame>
-      <Heading>세미나 제목</Heading>
+      <Skeleton isLoaded={state == State.Complete}>
+        <Heading>{seminar?.title}</Heading>
+      </Skeleton>
+      <Skeleton isLoaded={state == State.Complete}>
+        <Text>{seminar?.description ?? 'There is no description.'}</Text>
+      </Skeleton>
       <HStack>
         <Box bg="tomato" w="100%" p={4} color="white">
           <AspectRatio ratio={16 / 9}>
