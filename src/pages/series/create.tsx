@@ -19,7 +19,7 @@ import {
   toastSuccess,
 } from '../../configs'
 
-export default function SeminarCreate(): JSX.Element {
+export default function SeriesCreate(): JSX.Element {
   const router = useRouter()
   const toast = createStandaloneToast()
   const {
@@ -31,16 +31,14 @@ export default function SeminarCreate(): JSX.Element {
   const { isSubmitting } = useFormState({ control })
 
   const onSubmit = (data) => {
-    API.post('seminar/create', {
+    API.post('series/create', {
       title: data.title,
       description: data.description,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      onlineLink: [data.onlineLink],
+      seminars: [],
     })
       .then((res: AxiosResponse) => {
-        toastSuccess(toast, `Created seminar named "${data.title}"`)
-        router.push(`/seminar/${res.data}`)
+        toastSuccess(toast, `Created series named "${data.title}"`)
+        router.push(`/series/${res.data}`)
       })
       .catch((err: AxiosError) => {
         if (err.response) {
@@ -67,18 +65,6 @@ export default function SeminarCreate(): JSX.Element {
           <FormControl id="description">
             <FormLabel>Description</FormLabel>
             <Input type="text" {...register('description')} />
-          </FormControl>
-          <FormLabel>{`Start Date & Time`}</FormLabel>
-          <FormControl id="startTime">
-            <input type="datetime-local" {...register('startTime')} />
-          </FormControl>
-          <FormLabel>{`End Date & Time`}</FormLabel>
-          <FormControl id="endTime">
-            <input type="datetime-local" {...register('endTime')} />
-          </FormControl>
-          <FormControl id="onlineLink">
-            <FormLabel>Online Link</FormLabel>
-            <Input type="url" {...register('onlineLink')} />
           </FormControl>
           <Button
             mt={4}
