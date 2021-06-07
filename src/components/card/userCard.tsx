@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function UserCard({ user }): JSX.Element {
   return (
-    <Link href={`/user/${user.email}`}>
+    <Link href={`/user/${user?.email}`}>
       <Box margin={3} padding={3} borderRadius={12} borderWidth={1}>
         <Skeleton isLoaded={user}>
           <HStack>
