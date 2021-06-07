@@ -30,7 +30,7 @@ export default function Series(): JSX.Element {
           API.get(`/seminar/query/${seminar}`)
         })
         Promise.all(promises).then((seminars) => {
-          setSeminars(seminars)
+          // setSeminars(seminars)
           setState(State.Complete)
         })
       })

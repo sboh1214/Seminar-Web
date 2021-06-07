@@ -7,13 +7,16 @@ import {
   AccordionPanel,
   Text,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 import UserCard from './userCard'
 
 export default function SeminarCard({ seminar }): JSX.Element {
   return (
     <Box margin={3} padding={3} borderRadius={12} borderWidth={1}>
-      <Heading size="lg">{seminar.title}</Heading>
-      <Text marginY={3}>{seminar.description}</Text>
+      <Link href={`/seminar/${seminar.id}`}>
+        <Heading size="lg">{seminar.title}</Heading>
+        <Text marginY={3}>{seminar.description}</Text>
+      </Link>
       <Accordion allowMultiple>
         <AccordionItem>
           <h2>
