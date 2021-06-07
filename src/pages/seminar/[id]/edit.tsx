@@ -21,11 +21,13 @@ export default function SeminarEdit(): JSX.Element {
 
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+  const [onlineLinks, setOnlineLinks] = useState<string>('')
   const [series, setSeries] = useState<string>('')
 
   const setSeminar = (seminar) => {
     setTitle(seminar.title)
     setDescription(seminar.description)
+    setOnlineLinks(seminar.onlineLinks.join(''))
     setSeries(seminar.series.join(','))
   }
 
@@ -36,6 +38,7 @@ export default function SeminarEdit(): JSX.Element {
     API.post(`/seminar/update/${id}`, {
       title,
       description,
+      onlineLinks: onlineLinks.split(','),
       series: series.split(','),
     })
       .then(() => {
@@ -79,6 +82,13 @@ export default function SeminarEdit(): JSX.Element {
             value={description}
             onChange={(event) => {
               setDescription(event.target.value)
+            }}
+          />
+          <FormLabel marginTop={3}>Online Links</FormLabel>
+          <Textarea
+            value={onlineLinks}
+            onChange={(event) => {
+              setOnlineLinks(event.target.value)
             }}
           />
           <FormLabel marginTop={3}>Series</FormLabel>

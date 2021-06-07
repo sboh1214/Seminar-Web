@@ -31,7 +31,7 @@ export default function SeminarCreate(): JSX.Element {
       description: data.description,
       startTime: data.startTime,
       endTime: data.endTime,
-      onlineLink: [data.onlineLink],
+      onlineLink: data.onlineLink.split(''),
     })
       .then((res: AxiosResponse) => {
         toastSuccess(toast, `Created seminar named "${data.title}"`)
@@ -67,7 +67,7 @@ export default function SeminarCreate(): JSX.Element {
           </FormControl>
           <FormControl id="onlineLink">
             <FormLabel>Online Link</FormLabel>
-            <Input type="url" {...register('onlineLink')} />
+            <Input type="text" {...register('onlineLink')} />
           </FormControl>
           <Button
             mt={4}
