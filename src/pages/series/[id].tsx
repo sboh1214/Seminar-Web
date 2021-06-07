@@ -4,13 +4,8 @@ import { AxiosResponse, AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Frame from '../../components/frame'
-import {
-  API,
-  StatusCode,
-  toastAxiosError,
-  toastInternetError,
-  toastServerError,
-} from '../../configs'
+import { API } from '../../configs'
+import { toastError } from '../../util/toast'
 
 enum State {
   Loading,
@@ -33,17 +28,7 @@ export default function Series(): JSX.Element {
       })
       .catch((err: AxiosError) => {
         setState(State.Error)
-        if (err.response) {
-          if (err.response.status == StatusCode.NotFound) {
-            toastServerError(toast, err.response.data)
-          } else if (err.response.status == StatusCode.InternalServerError) {
-            toastServerError(toast, err.response.data)
-          }
-        } else if (err.request) {
-          toastInternetError(toast)
-        } else {
-          toastAxiosError(toast, err.message)
-        }
+        toastError(toast, err)
       })
   }, [])
 
