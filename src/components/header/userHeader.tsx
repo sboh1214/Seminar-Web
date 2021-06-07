@@ -13,18 +13,19 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
+import { UserRole } from '../../configs'
 
 export default function UserHeader({ user }): JSX.Element {
   return (
     <HStack>
-      {user.role === 'ADMIN' ? (
+      {user.role === UserRole.ADMIN ? (
         <Link href="/admin">
           <Button colorScheme="teal" variant="outline">
             Admin
           </Button>
         </Link>
       ) : null}
-      {user.role === 'SPEAKER' || user.role === 'ADMIN' ? (
+      {user.role === UserRole.ADMIN || user.role === UserRole.SPEAKER ? (
         <>
           <Link href="/seminar/create">
             <Button colorScheme="teal" variant="outline">

@@ -21,6 +21,8 @@ export function toastError(toast: ToastFunction, err: AxiosError): void {
       toastServerError(toast, err.response.data)
     } else if (err.response.status == StatusCode.InternalServerError) {
       toastServerError(toast, err.response.data)
+    } else {
+      toastServerError(toast, err.response.data)
     }
   } else if (err.request) {
     toastInternetError(toast)

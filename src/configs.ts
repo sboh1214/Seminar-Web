@@ -17,3 +17,9 @@ export const StatusCode = {
   InternalServerError: 500,
   NotImplemented: 501,
 }
+
+export enum UserRole {
+  NONE = 'NONE',
+  SPEAKER = 'SPEAKER',
+  ADMIN = 'ADMIN',
+}
