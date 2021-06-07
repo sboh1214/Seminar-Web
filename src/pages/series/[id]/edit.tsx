@@ -13,7 +13,7 @@ import { fetchSeminar, State } from '../../../util/fetch'
 import { toastError, toastSuccess } from '../../../util/toast'
 import { AxiosError } from 'axios'
 
-export default function SeminarEdit(): JSX.Element {
+export default function SeriesEdit(): JSX.Element {
   const router = useRouter()
   const { id } = router.query
   const toast = createStandaloneToast()
@@ -22,16 +22,16 @@ export default function SeminarEdit(): JSX.Element {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
 
-  const setSeminar = (seminar) => {
-    setTitle(seminar.title)
-    setDescription(seminar.description)
+  const setSeries = (series) => {
+    setTitle(series.title)
+    setDescription(series.description)
   }
 
-  fetchSeminar(id, setSeminar, setState, toast)
+  fetchSeminar(id, setSeries, setState, toast)
 
-  const updateSeminar = () => {
+  const updateSeries = () => {
     setState(State.Loading)
-    API.post(`/seminar/update/${id}`)
+    API.post(`/series/update/${id}`)
       .then(() => {
         setState(State.Complete)
         toastSuccess(toast, 'Successfully updated')
@@ -42,12 +42,13 @@ export default function SeminarEdit(): JSX.Element {
       })
   }
 
-  const deleteSeminar = () => {
+  const deleteSeries = () => {
     setState(State.Loading)
-    API.post(`/seminar/delete/${id}`)
+    API.post(`/series/delete/${id}`)
       .then(() => {
         setState(State.Complete)
         toastSuccess(toast, 'Successfully deleted')
+        router.push('/')
       })
       .catch((err: AxiosError) => {
         setState(State.Error)
@@ -58,7 +59,7 @@ export default function SeminarEdit(): JSX.Element {
   return (
     <Frame>
       <Box marginY={6} borderWidth={1} borderRadius={6} padding={6}>
-        <Heading>Edit Seminar ID: {id}</Heading>
+        <Heading>Edit Series ID: {id}</Heading>
         <Skeleton isLoaded={state !== State.Loading}>
           <FormLabel marginTop={3}>Title</FormLabel>
           <Input type="text" value={title} />
@@ -68,7 +69,7 @@ export default function SeminarEdit(): JSX.Element {
         <Button
           marginTop={6}
           isDisabled={state === State.Loading}
-          onClick={updateSeminar}
+          onClick={updateSeries}
         >
           Update
         </Button>
@@ -79,7 +80,7 @@ export default function SeminarEdit(): JSX.Element {
           colorScheme="red"
           marginTop={6}
           isDisabled={state === State.Loading}
-          onClick={deleteSeminar}
+          onClick={deleteSeries}
         >
           Delete
         </Button>

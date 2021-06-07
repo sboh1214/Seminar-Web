@@ -3,9 +3,9 @@ import { createStandaloneToast, Skeleton, Text } from '@chakra-ui/react'
 import { AxiosResponse, AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Frame from '../../components/frame'
-import { API } from '../../configs'
-import { toastError } from '../../util/toast'
+import Frame from '../../../components/frame'
+import { API } from '../../../configs'
+import { toastError } from '../../../util/toast'
 
 enum State {
   Loading,
