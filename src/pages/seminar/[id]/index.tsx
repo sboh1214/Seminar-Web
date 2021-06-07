@@ -8,6 +8,8 @@ import { createStandaloneToast } from '@chakra-ui/toast'
 import { Skeleton } from '@chakra-ui/skeleton'
 import { toastError } from '../../../util/toast'
 import NotFound from '../../../components/notFound'
+import Link from 'next/link'
+import { Button } from '@chakra-ui/button'
 
 enum State {
   Loading,
@@ -50,19 +52,25 @@ export default function Seminar(): JSX.Element {
               {seminar?.description ?? 'There is no description.'}
             </Text>
           </Skeleton>
-          <AspectRatio ratio={16 / 9}>
-            <iframe
-              width="1664"
-              height="776"
-              src={seminar?.onlineLinks[0]}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </AspectRatio>
+          {seminar?.onlineLinks ? (
+            <AspectRatio ratio={16 / 9}>
+              <iframe
+                width="1664"
+                height="776"
+                src={seminar?.onlineLinks[0]}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </AspectRatio>
+          ) : null}
         </Box>
-        <Box flex={1}></Box>
+        <Box flex={1}>
+          <Link href={`/seminar/${id}/edit`}>
+            <Button>Edit</Button>
+          </Link>
+        </Box>
       </Flex>
     </Frame>
   )

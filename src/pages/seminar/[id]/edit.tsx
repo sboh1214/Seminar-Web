@@ -57,10 +57,12 @@ export default function SeminarEdit(): JSX.Element {
       .then(() => {
         setState(State.Complete)
         toastSuccess(toast, 'Successfully deleted')
+        router.push('/')
       })
       .catch((err: AxiosError) => {
         setState(State.Error)
         toastError(toast, err)
+        router.push('/')
       })
   }
 
