@@ -26,13 +26,7 @@ export default function Series(): JSX.Element {
     API.get(`/series/query/${id}`)
       .then((res: AxiosResponse) => {
         setSeries(res.data)
-        const promises = series.seminars?.map((seminar) => {
-          API.get(`/seminar/query/${seminar}`)
-        })
-        Promise.all(promises).then((seminars) => {
-          // setSeminars(seminars)
-          setState(State.Complete)
-        })
+        setState(State.Complete)
       })
       .catch((err: AxiosError) => {
         setState(State.Error)

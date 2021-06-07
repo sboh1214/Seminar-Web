@@ -6,7 +6,6 @@ import { API } from '../../../configs'
 import { AxiosError, AxiosResponse } from 'axios'
 import { createStandaloneToast } from '@chakra-ui/toast'
 import { Skeleton } from '@chakra-ui/skeleton'
-import { Button } from '@chakra-ui/button'
 import { toastError } from '../../../util/toast'
 import NotFound from '../../../components/notFound'
 
@@ -21,7 +20,6 @@ export default function Seminar(): JSX.Element {
   const { id } = router.query
   const toast = createStandaloneToast()
   const [seminar, setSeminar] = useState(null)
-  const [seriesArray, setSeriesArray] = useState<[any]>()
   const [state, setState] = useState<State>(State.Loading)
 
   useEffect(() => {
