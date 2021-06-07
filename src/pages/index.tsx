@@ -48,19 +48,19 @@ export default function Home(): JSX.Element {
       <Flex>
         <Box flex={1}>
           <Heading>Series</Heading>
-          {/* {seriesArray?.map((series) => {
+          {seriesArray?.map((series) => {
             if (series) {
               return <SeriesCard series={series} key={series.id} />
             }
-          }) ?? 'No series.'} */}
+          }) ?? 'No series.'}
         </Box>
         <Box flex={1}>
           <Heading>Seminars</Heading>
-          {/* {seminars?.map((seminar) => {
+          {seminars?.map((seminar) => {
             if (seminar) {
               return <SeminarCard seminar={seminar} key={seminar.id} />
             }
-          }) ?? 'No seminars.'} */}
+          }) ?? 'No seminars.'}
         </Box>
       </Flex>
     </Frame>
