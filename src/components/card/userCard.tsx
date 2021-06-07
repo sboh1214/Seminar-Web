@@ -5,7 +5,15 @@ import React from 'react'
 export default function UserCard({ user }): JSX.Element {
   return (
     <Link href={`/user/${user?.email}`}>
-      <Box margin={3} padding={3} borderRadius={12} borderWidth={1}>
+      <Box
+        _hover={{
+          background: 'teal.100',
+        }}
+        margin={3}
+        padding={3}
+        borderRadius={12}
+        borderWidth={1}
+      >
         <Skeleton isLoaded={user}>
           <HStack>
             <Avatar name={user?.englishName ?? 'Null'} />
