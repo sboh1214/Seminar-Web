@@ -1,4 +1,4 @@
-import { Heading, HStack, Box, AspectRatio, Text } from '@chakra-ui/layout'
+import { Heading, Box, AspectRatio, Text, Flex } from '@chakra-ui/layout'
 import Frame from '../../../components/frame'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -8,6 +8,7 @@ import { createStandaloneToast } from '@chakra-ui/toast'
 import { Skeleton } from '@chakra-ui/skeleton'
 import { Button } from '@chakra-ui/button'
 import { toastError } from '../../../util/toast'
+import NotFound from '../../../components/notFound'
 
 enum State {
   Loading,
@@ -17,12 +18,13 @@ enum State {
 
 export default function Seminar(): JSX.Element {
   const router = useRouter()
+  const { id } = router.query
   const toast = createStandaloneToast()
   const [seminar, setSeminar] = useState(null)
+  const [seriesArray, setSeriesArray] = useState<[any]>()
   const [state, setState] = useState<State>(State.Loading)
 
   useEffect(() => {
-    const { id } = router.query
     API.get(`/seminar/query/${id}`)
       .then((res: AxiosResponse) => {
         setSeminar(res.data)
@@ -35,28 +37,21 @@ export default function Seminar(): JSX.Element {
   }, [])
 
   if (state == State.Error) {
-    return (
-      <Frame>
-        <Button
-          onClick={() => {
-            router.reload()
-          }}
-        >
-          Reload
-        </Button>
-      </Frame>
-    )
+    return <NotFound message={`There is no seminar with id "${id}".`} />
   }
   return (
     <Frame>
-      <Skeleton isLoaded={state == State.Complete}>
-        <Heading>{seminar?.title}</Heading>
-      </Skeleton>
-      <Skeleton isLoaded={state == State.Complete}>
-        <Text>{seminar?.description ?? 'There is no description.'}</Text>
-      </Skeleton>
-      <HStack>
-        <Box bg="tomato" w="100%" p={4} color="white">
+      <Flex>
+        <Box flex={2}>
+          <Text>{`ID: ${id}`}</Text>
+          <Skeleton isLoaded={state == State.Complete}>
+            <Heading marginY={3}>{seminar?.title}</Heading>
+          </Skeleton>
+          <Skeleton isLoaded={state == State.Complete}>
+            <Text marginY={3}>
+              {seminar?.description ?? 'There is no description.'}
+            </Text>
+          </Skeleton>
           <AspectRatio ratio={16 / 9}>
             <iframe
               width="1664"
@@ -69,10 +64,8 @@ export default function Seminar(): JSX.Element {
             ></iframe>
           </AspectRatio>
         </Box>
-        <Box bg="yellow" w="360px" p={4} color="white">
-          This is the Box
-        </Box>
-      </HStack>
+        <Box flex={1}></Box>
+      </Flex>
     </Frame>
   )
 }

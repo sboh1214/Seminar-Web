@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/layout'
+import { Box, Flex, Heading } from '@chakra-ui/layout'
 import { createStandaloneToast } from '@chakra-ui/toast'
 import { AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
@@ -45,18 +45,20 @@ export default function Home(): JSX.Element {
   }
   return (
     <Frame>
-      <Box flex={1}>
-        <Heading>Series</Heading>
-        {seriesArray?.map((series) => {
-          return <SeriesCard series={series} key={series.id} />
-        }) ?? 'No series.'}
-      </Box>
-      <Box flex={1}>
-        <Heading>Seminars</Heading>
-        {seminars?.map((seminar) => {
-          return <SeminarCard seminar={seminar} key={seminar.id} />
-        }) ?? 'No seminars.'}
-      </Box>
+      <Flex>
+        <Box flex={1}>
+          <Heading>Series</Heading>
+          {seriesArray?.map((series) => {
+            return <SeriesCard series={series} key={series.id} />
+          }) ?? 'No series.'}
+        </Box>
+        <Box flex={1}>
+          <Heading>Seminars</Heading>
+          {seminars?.map((seminar) => {
+            return <SeminarCard seminar={seminar} key={seminar.id} />
+          }) ?? 'No seminars.'}
+        </Box>
+      </Flex>
     </Frame>
   )
 }

@@ -21,17 +21,23 @@ export default function SeriesEdit(): JSX.Element {
 
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+  const [seminars, setSeminars] = useState<string>('')
 
   const setSeries = (series) => {
     setTitle(series.title)
     setDescription(series.description)
+    setSeminars(series.seminars.join(','))
   }
 
   fetchSeminar(id, setSeries, setState, toast)
 
   const updateSeries = () => {
     setState(State.Loading)
-    API.post(`/series/update/${id}`)
+    API.post(`/series/update/${id}`, {
+      title,
+      description,
+      seminars: seminars.split(','),
+    })
       .then(() => {
         setState(State.Complete)
         toastSuccess(toast, 'Successfully updated')
@@ -44,7 +50,7 @@ export default function SeriesEdit(): JSX.Element {
 
   const deleteSeries = () => {
     setState(State.Loading)
-    API.post(`/series/delete/${id}`)
+    API.get(`/series/delete/${id}`)
       .then(() => {
         setState(State.Complete)
         toastSuccess(toast, 'Successfully deleted')
@@ -62,9 +68,27 @@ export default function SeriesEdit(): JSX.Element {
         <Heading>Edit Series ID: {id}</Heading>
         <Skeleton isLoaded={state !== State.Loading}>
           <FormLabel marginTop={3}>Title</FormLabel>
-          <Input type="text" value={title} />
+          <Input
+            type="text"
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value)
+            }}
+          />
           <FormLabel marginTop={3}>Description</FormLabel>
-          <Textarea value={description} />
+          <Textarea
+            value={description}
+            onChange={(event) => {
+              setDescription(event.target.value)
+            }}
+          />
+          <FormLabel marginTop={3}>Seminar List</FormLabel>
+          <Textarea
+            value={seminars}
+            onChange={(event) => {
+              setSeminars(event.target.value)
+            }}
+          />
         </Skeleton>
         <Button
           marginTop={6}

@@ -3,6 +3,7 @@ import { createStandaloneToast, Skeleton, Text } from '@chakra-ui/react'
 import { AxiosResponse, AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import SeminarCard from '../../../components/card/seminarCard'
 import Frame from '../../../components/frame'
 import { API } from '../../../configs'
 import { toastError } from '../../../util/toast'
@@ -18,13 +19,20 @@ export default function Series(): JSX.Element {
   const toast = createStandaloneToast()
   const [state, setState] = useState<State>(State.Loading)
   const [series, setSeries] = useState(null)
+  const [seminars, setSeminars] = useState<[any]>(null)
 
   useEffect(() => {
     const { id } = router.query
     API.get(`/series/query/${id}`)
       .then((res: AxiosResponse) => {
         setSeries(res.data)
-        setState(State.Complete)
+        const promises = series.seminars?.map((seminar) => {
+          API.get(`/seminar/query/${seminar}`)
+        })
+        Promise.all(promises).then((seminars) => {
+          setSeminars(seminars)
+          setState(State.Complete)
+        })
       })
       .catch((err: AxiosError) => {
         setState(State.Error)
@@ -37,6 +45,9 @@ export default function Series(): JSX.Element {
       <Skeleton isLoaded={state !== State.Loading}>
         <Heading>{series?.title}</Heading>
         <Text>{series?.description ?? 'There is no description'}</Text>
+        {seminars?.map((seminar) => {
+          return <SeminarCard seminar={seminar} key={seminar.id} />
+        })}
       </Skeleton>
     </Frame>
   )
