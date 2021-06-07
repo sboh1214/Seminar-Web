@@ -27,8 +27,8 @@ export default function SeminarEdit(): JSX.Element {
   const setSeminar = (seminar) => {
     setTitle(seminar.title)
     setDescription(seminar.description)
-    setOnlineLinks(seminar.onlineLinks.join(''))
-    setSeries(seminar.series.join(','))
+    setOnlineLinks(seminar.onlineLinks?.join(''))
+    setSeries(seminar.series?.join(','))
   }
 
   fetchSeminar(id, setSeminar, setState, toast)
@@ -38,8 +38,8 @@ export default function SeminarEdit(): JSX.Element {
     API.post(`/seminar/update/${id}`, {
       title,
       description,
-      onlineLinks: onlineLinks.split(','),
-      series: series.split(','),
+      onlineLinks: onlineLinks?.split(','),
+      series: series?.split(','),
     })
       .then(() => {
         setState(State.Complete)

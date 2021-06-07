@@ -26,7 +26,7 @@ export default function SeriesEdit(): JSX.Element {
   const setSeries = (series) => {
     setTitle(series.title)
     setDescription(series.description)
-    setSeminars(series.seminars.join(','))
+    setSeminars(series.seminars?.join(','))
   }
 
   fetchSeminar(id, setSeries, setState, toast)
@@ -36,7 +36,7 @@ export default function SeriesEdit(): JSX.Element {
     API.post(`/series/update/${id}`, {
       title,
       description,
-      seminars: seminars.split(','),
+      seminars: seminars?.split(','),
     })
       .then(() => {
         setState(State.Complete)
