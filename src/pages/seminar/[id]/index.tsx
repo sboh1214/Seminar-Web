@@ -54,7 +54,7 @@ export default function Seminar(): JSX.Element {
             <iframe
               width="1664"
               height="776"
-              src="https://www.youtube.com/embed/FQZ3g-cXYlk"
+              src={seminar?.onlineLinks[0]}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
