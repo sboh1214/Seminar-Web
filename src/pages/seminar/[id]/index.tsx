@@ -1,18 +1,13 @@
 import { Heading, HStack, Box, AspectRatio, Text } from '@chakra-ui/layout'
-import Frame from '../../components/frame'
+import Frame from '../../../components/frame'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import {
-  API,
-  StatusCode,
-  toastAxiosError,
-  toastInternetError,
-  toastServerError,
-} from '../../configs'
+import { API } from '../../../configs'
 import { AxiosError, AxiosResponse } from 'axios'
 import { createStandaloneToast } from '@chakra-ui/toast'
 import { Skeleton } from '@chakra-ui/skeleton'
 import { Button } from '@chakra-ui/button'
+import { toastError } from '../../../util/toast'
 
 enum State {
   Loading,
@@ -35,17 +30,7 @@ export default function Seminar(): JSX.Element {
       })
       .catch((err: AxiosError) => {
         setState(State.Error)
-        if (err.response) {
-          if (err.response.status == StatusCode.NotFound) {
-            toastServerError(toast, err.response.data)
-          } else if (err.response.status == StatusCode.InternalServerError) {
-            toastServerError(toast, err.response.data)
-          }
-        } else if (err.request) {
-          toastInternetError(toast)
-        } else {
-          toastAxiosError(toast, err.message)
-        }
+        toastError(toast, err)
       })
   }, [])
 
