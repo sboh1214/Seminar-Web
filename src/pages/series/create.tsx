@@ -11,13 +11,8 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'next/router'
 import { useForm, useFormState } from 'react-hook-form'
 import Frame from '../../components/frame'
-import {
-  API,
-  toastAxiosError,
-  toastInternetError,
-  toastServerError,
-  toastSuccess,
-} from '../../configs'
+import { API } from '../../configs'
+import { toastError, toastSuccess } from '../../util/toast'
 
 export default function SeriesCreate(): JSX.Element {
   const router = useRouter()
@@ -41,13 +36,7 @@ export default function SeriesCreate(): JSX.Element {
         router.push(`/series/${res.data}`)
       })
       .catch((err: AxiosError) => {
-        if (err.response) {
-          toastServerError(toast, err.response.data)
-        } else if (err.request) {
-          toastInternetError(toast)
-        } else {
-          toastAxiosError(toast, err.message)
-        }
+        toastError(toast, err)
       })
   }
 

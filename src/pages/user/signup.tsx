@@ -8,8 +8,9 @@ import {
 } from '@chakra-ui/react'
 import { useForm, useFormState } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { API, StatusCode, toastAxiosError, toastInternetError, toastServerError } from '../../configs'
+import { API, StatusCode } from '../../configs'
 import { AxiosError, AxiosResponse } from 'axios'
+import { toastError, toastSuccess } from '../../util/toast'
 
 export default function SignUp(): JSX.Element {
   const router = useRouter()
@@ -31,43 +32,20 @@ export default function SignUp(): JSX.Element {
       })
       return
     }
-    API
-      .post(`auth/signup`, {
-        email: data.email,
-        password: data.password,
-        englishName: data.englishName,
-        koreanName: data.koreanName,
-      })
+    API.post(`auth/signup`, {
+      email: data.email,
+      password: data.password,
+      englishName: data.englishName,
+      koreanName: data.koreanName,
+    })
       .then((res: AxiosResponse) => {
         if (res.status == StatusCode.Created) {
-          toast({
-            title: 'Success',
-            description: "Your account created.",
-            status: 'success',
-            duration: 5000,
-          })
+          toastSuccess(toast, 'Your account created.')
           router.push(`/user/signin?email=${data.email}`)
         }
       })
       .catch((err: AxiosError) => {
-        if (err.response) {
-          if (err.response.status == StatusCode.BadRequest) {
-            toast({
-              title: 'Error',
-              description: "Email already exists.",
-              status: 'error',
-              duration: 5000,
-            })
-          }
-          else if (err.response.status ==  StatusCode.InternalServerError) {
-            toastServerError(toast, err.response.data)
-          }
-        }
-        else if (err.request) {
-          toastInternetError(toast)
-        } else {
-          toastAxiosError(toast, err.message)
-        }
+        toastError(toast, err)
       })
   }
 

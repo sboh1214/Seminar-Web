@@ -1,7 +1,7 @@
 import { AxiosResponse, AxiosError } from 'axios'
 import { useEffect } from 'react'
-import { API, StatusCode } from '../configs'
-import { toastServerError, toastInternetError, toastAxiosError } from './toast'
+import { API } from '../configs'
+import { toastError } from './toast'
 
 export enum State {
   Loading,
@@ -19,17 +19,7 @@ export function fetchSeminar(id, setSeminar, setState, toast): void {
       })
       .catch((err: AxiosError) => {
         setState(State.Error)
-        if (err.response) {
-          if (err.response.status == StatusCode.NotFound) {
-            toastServerError(toast, err.response.data)
-          } else if (err.response.status == StatusCode.InternalServerError) {
-            toastServerError(toast, err.response.data)
-          }
-        } else if (err.request) {
-          toastInternetError(toast)
-        } else {
-          toastAxiosError(toast, err.message)
-        }
+        toastError(toast, err)
       })
   }, [])
 }
