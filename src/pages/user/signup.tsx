@@ -35,8 +35,8 @@ export default function SignUp(): JSX.Element {
     API.post(`auth/signup`, {
       email: data.email,
       password: data.password,
+      localName: data.localName,
       englishName: data.englishName,
-      koreanName: data.koreanName,
     })
       .then((res: AxiosResponse) => {
         if (res.status == StatusCode.Created) {
@@ -80,18 +80,18 @@ export default function SignUp(): JSX.Element {
               {errors.passwordCheck && 'This field is required'}
             </FormErrorMessage>
           </FormControl>
+          <FormControl id="localName" isInvalid={errors.localName}>
+            <FormLabel>Local Name</FormLabel>
+            <Input type="text" {...register('localName')} />
+            <FormErrorMessage>
+              {errors.localName && 'Error'}
+            </FormErrorMessage>
+          </FormControl>
           <FormControl id="englishName" isInvalid={errors.englishName}>
             <FormLabel>English Name</FormLabel>
             <Input type="text" {...register('englishName')} />
             <FormErrorMessage>
-              {errors.englishName && 'This field is required'}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl id="koreanName" isInvalid={errors.koreanName}>
-            <FormLabel>Korean Name</FormLabel>
-            <Input type="text" {...register('koreanName')} />
-            <FormErrorMessage>
-              {errors.koreanName && 'This field is required'}
+              {errors.englishName && 'Error'}
             </FormErrorMessage>
           </FormControl>
           <Button
