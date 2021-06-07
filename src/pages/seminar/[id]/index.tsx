@@ -51,15 +51,17 @@ export default function Seminar(): JSX.Element {
             </Text>
           </Skeleton>
           <AspectRatio ratio={16 / 9}>
-            <iframe
-              width="1664"
-              height="776"
-              src={seminar?.onlineLinks[0]}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            {seminar?.onlineLinks ? (
+              <iframe
+                width="1664"
+                height="776"
+                src={seminar?.onlineLinks[0]}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            ) : null}
           </AspectRatio>
         </Box>
         <Box flex={1}></Box>
