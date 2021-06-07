@@ -7,7 +7,7 @@ export default function SeminarCard({ seminar }): JSX.Element {
     <Box margin={3} padding={3} borderRadius={12} borderWidth={1}>
       <Link href={`/seminar/${seminar.id}`}>
         <Box>
-          <Heading size="lg">{seminar.title}</Heading>
+          <Heading size="md">{seminar.title}</Heading>
           <Text marginY={3}>{seminar.description}</Text>
         </Box>
       </Link>
