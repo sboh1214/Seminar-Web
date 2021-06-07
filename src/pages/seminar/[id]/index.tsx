@@ -8,6 +8,8 @@ import { createStandaloneToast } from '@chakra-ui/toast'
 import { Skeleton } from '@chakra-ui/skeleton'
 import { toastError } from '../../../util/toast'
 import NotFound from '../../../components/notFound'
+import Link from 'next/link'
+import { Button } from '@chakra-ui/button'
 
 enum State {
   Loading,
@@ -64,7 +66,11 @@ export default function Seminar(): JSX.Element {
             </AspectRatio>
           ) : null}
         </Box>
-        <Box flex={1}></Box>
+        <Box flex={1}>
+          <Link href={`/seminar/${id}/edit`}>
+            <Button>Edit</Button>
+          </Link>
+        </Box>
       </Flex>
     </Frame>
   )

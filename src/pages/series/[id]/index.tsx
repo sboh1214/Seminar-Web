@@ -1,8 +1,14 @@
 import { Heading } from '@chakra-ui/layout'
-import { createStandaloneToast, Skeleton, Text } from '@chakra-ui/react'
+import {
+  Button,
+  createStandaloneToast,
+  Link,
+  Skeleton,
+  Text,
+} from '@chakra-ui/react'
 import { AxiosResponse, AxiosError } from 'axios'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SeminarCard from '../../../components/card/seminarCard'
 import Frame from '../../../components/frame'
 import { API } from '../../../configs'
@@ -16,13 +22,13 @@ enum State {
 
 export default function Series(): JSX.Element {
   const router = useRouter()
+  const { id } = router.query
   const toast = createStandaloneToast()
   const [state, setState] = useState<State>(State.Loading)
   const [series, setSeries] = useState(null)
   const [seminars, setSeminars] = useState<[any]>(null)
 
   useEffect(() => {
-    const { id } = router.query
     API.get(`/series/query/${id}`)
       .then((res: AxiosResponse) => {
         setSeries(res.data)
@@ -42,6 +48,9 @@ export default function Series(): JSX.Element {
         {seminars?.map((seminar) => {
           return <SeminarCard seminar={seminar} key={seminar.id} />
         })}
+        <Link href={`/series/${id}/edit`}>
+          <Button>Edit</Button>
+        </Link>
       </Skeleton>
     </Frame>
   )
