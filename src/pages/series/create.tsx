@@ -29,7 +29,7 @@ export default function SeriesCreate(): JSX.Element {
     API.post('series/create', {
       title: data.title,
       description: data.description,
-      seminars: [],
+      seminars: data.seminars.split(','),
     })
       .then((res: AxiosResponse) => {
         toastSuccess(toast, `Created series named "${data.title}"`)
@@ -54,6 +54,10 @@ export default function SeriesCreate(): JSX.Element {
           <FormControl id="description">
             <FormLabel>Description</FormLabel>
             <Input type="text" {...register('description')} />
+          </FormControl>
+          <FormControl id="seminars">
+            <FormLabel>Seminar List</FormLabel>
+            <Input type="text" {...register('seminars')} />
           </FormControl>
           <Button
             mt={4}
