@@ -50,8 +50,8 @@ export default function Seminar(): JSX.Element {
               {seminar?.description ?? 'There is no description.'}
             </Text>
           </Skeleton>
-          <AspectRatio ratio={16 / 9}>
-            {seminar?.onlineLinks ? (
+          {seminar?.onlineLinks ? (
+            <AspectRatio ratio={16 / 9}>
               <iframe
                 width="1664"
                 height="776"
@@ -61,8 +61,8 @@ export default function Seminar(): JSX.Element {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
-            ) : null}
-          </AspectRatio>
+            </AspectRatio>
+          ) : null}
         </Box>
         <Box flex={1}></Box>
       </Flex>
